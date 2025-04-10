@@ -1,0 +1,121 @@
+@font-face {
+    font-family: 'KaiseiDecol-Regular';
+    src: url("../../public/Fonts/KaiseiDecol-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: 'NanumMyeongjo-Regular';
+    src: url("../../public/Fonts/NanumMyeongjo-Regular.ttf") format("truetype");
+}
+/* Home */
+.home-container{
+    width: 100%;
+}
+
+/* Menu*/
+.menu-container{
+    display:flex;
+    width: 100%;
+    font-family: 'KaiseiDecol-Regular';
+    justify-content: center;
+}
+
+.menu-section{
+    display: flex;
+    width: 50%;
+    position: relative;
+}
+
+.menu-section::before{
+    content: ''; /* 이게 없으면 가상 요소의 의미가 없어짐(적용할 대상이 없기 때문)*/
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    border: 2px solid white;
+}
+
+.menu-perfume{
+    width: 100%;
+    display: block;
+}
+
+.text-overlay{
+    position: absolute;
+    color: white;
+    font-size: 48px;
+}
+.text-perfume{
+    bottom: 22px;
+    left: 32px;
+    
+    text-decoration: none;
+}
+.text-diffuser{
+    bottom: 22px;
+    right: 32px;
+    
+    text-decoration: none;
+}
+
+/* Banner */
+.banner-container{
+    width: 100%;
+}
+
+/* Info */
+.info_sector{
+    display: flex;
+    padding: 2%;
+    margin: 2%;
+    background-color: transparent;
+    width: 91vw;
+    height: 80vh;
+    align-items: center;
+    justify-content: space-around;
+    border: 2px solid black;
+}
+.info_img_section{
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin: 5px;
+}
+.info_text_section{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    font-family: 'NanumMyeongjo-Regular';
+    white-space: normal;
+    word-break: normal;
+}
+
+.info_fonts{
+    font-family: 'KaiseiDecol-Regular';
+    writing-mode: vertical-lr;
+    font-size: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info_title{
+    font-size: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+    height: 15vh;
+    text-align: left;
+    padding: 2%;
+}
+
+.info_explain{
+    font-size: 1.4rem;
+    height: 35vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2%;
+}

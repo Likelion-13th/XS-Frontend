@@ -9,12 +9,12 @@
 
 .header-container{
     display: flex;
-    flex-direction: row;
     justify-content: space-between; /*일정한 간격을 두고 가운데정렬*/
     padding: 52px 72px;
     background-position: center;
     background-size: cover;
-    background-color: rgba(189, 186, 168, 0.137);
+    background-color: rgba(196, 193, 181, 0.411);
+
 }
 .header-container2{
     display: flex;
@@ -26,19 +26,13 @@
     background-color: #E7EFF5;
 }
 
-.head-image {
-    width: 1900px;
-    height: 1999px;
-    background-image: url("../../public/images/XSbackground.png");
-}
-
 .active{
     color: black;
     text-decoration: none;
     height: 30px;
 }
 .not-now{
-    color: #faf4f4;
+    color: #8b7171;
     text-decoration: none;
     height: 30px;
 }
@@ -48,8 +42,10 @@
     height: 30px;
 }
 .header-section{
+    content: '';
     display: flex;
     flex-direction: row;
+
     gap: 30px;
     font-size: 1.8rem;
     font-family: 'KaiseiDecol-Regular';

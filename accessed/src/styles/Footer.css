@@ -12,9 +12,9 @@
     flex-direction: column;
     gap: 50px;
     background-color: #E7EFF5;
-    width: 1755px;
+    width: 95vw;
     height: 200px;
-    padding: 52px 72px;
+    padding: 52px 0.2vw 52px 4vw;
 }
 .footer-section{
     display: flex;
