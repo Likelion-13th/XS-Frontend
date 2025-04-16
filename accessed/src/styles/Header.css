@@ -54,24 +54,7 @@
     color: black;
     text-decoration: none;
 }
-/*
-.info-text-wrapper,
-.footer-subtitle{
-    font-size: 1.2rem;
-    font-family: 'NanumMyeongjo-Regular';
-}
-.info-text-wrapper{
-    display: flex;
-    gap: 16px;
-}
 
-.info-text-1{
-    color:#B8BAC6;
+.header-frame {
+    width: 100vw;
 }
-.info-text-2{
-    color:#969BA4;
-}
-.info-text-row{
-    display: flex;
-    gap: 16px;
-}*/

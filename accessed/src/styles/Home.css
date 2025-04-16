@@ -66,11 +66,8 @@
 /* Info */
 .info_sector{
     display: flex;
-    padding: 2%;
-    margin: 2%;
     background-color: transparent;
-    width: 91vw;
-    height: 80vh;
+    height: 100vh;
     align-items: center;
     justify-content: space-around;
     border: 2px solid black;
@@ -118,4 +115,8 @@
     flex-direction: column;
     justify-content: center;
     padding: 2%;
+}
+
+.frame{
+    width: 100vw;
 }

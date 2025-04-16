@@ -54,6 +54,7 @@ const Banner = () => {
         `${process.env.PUBLIC_URL}/images/banner_background_3.jpg`,
     ];
     return (
+      <div className="frame">
         <div className="banner-container">
             <Slider {...settings}>
                 {images.map((image, index)/*index는 image file 순서*/  => (
@@ -66,6 +67,7 @@ const Banner = () => {
                 ))}
             </Slider>
         </div>
+      </div>
     );
 };
 export default Banner;

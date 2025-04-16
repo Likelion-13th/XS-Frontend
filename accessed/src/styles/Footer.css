@@ -6,15 +6,16 @@
     font-family: 'NanumMyeongjo-Regular';
     src: url("../../public/Fonts/NanumMyeongjo-Regular.ttf") format("truetype");
 }
-
+.footer-frame {
+    width:100vw;
+}
 .footer-container {
     display: flex;
     flex-direction: column;
     gap: 50px;
     background-color: #E7EFF5;
-    width: 95vw;
     height: 200px;
-    padding: 52px 0.2vw 52px 4vw;
+    padding: 52px 70px;
 }
 .footer-section{
     display: flex;

@@ -2,8 +2,8 @@ import React from "react";
 
 const Info = () => {
   return (
-    <div>
-        <header className="info_sector">
+    <div className="frame">
+        <div className="info_sector">
             <div className="info_img_section">
                 <img
                     src={`${process.env.PUBLIC_URL}/images/about_us.png`}
@@ -34,7 +34,7 @@ const Info = () => {
                     강해져서 돌아오겠습니다.
                 </div>
             </div>
-        </header>
+        </div>
     </div>
   );
 };
