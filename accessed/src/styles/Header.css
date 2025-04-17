@@ -14,7 +14,6 @@
     background-position: center;
     background-size: cover;
     background-color: rgba(196, 193, 181, 0.411);
-
 }
 .header-container2{
     display: flex;
@@ -57,4 +56,6 @@
 
 .header-frame {
     width: 100vw;
+    position: fixed;
+    z-index: 1;
 }
