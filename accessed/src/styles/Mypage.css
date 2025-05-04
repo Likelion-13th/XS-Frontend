@@ -1,0 +1,242 @@
+/*@font-face {
+    font-family: 'KaiseiDecol-Regular';
+    src: url("../../public/Fonts/KaiseiDecol-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: 'NanumMyeongjo-Regular';
+    src: url("../../public/Fonts/NanumMyeongjo-Regular.ttf") format("truetype");
+}*/
+
+/* Mypage */
+.mypage-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 40px;
+    font-family: 'NanumMyejongjo', sans-serif;
+    width: 95%;
+}
+/*Profile*/
+.profile-container{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+    padding: 50px 0px;
+    border-top: 1px solid #9698a4;
+    border-bottom: 1px solid #9698a4;
+}
+.profile-section{
+    width: 33%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: 400;
+    border-left: 1px solid #9698a4;
+}
+.profile-section:first-child {
+    border: none; /*첫번째 요소에는 left border가 없음*/
+}
+
+.profile-stat-label{
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+.profile-stat-value{
+    font-weight: 600;
+}
+.profile-name{
+    display:flex;
+    align-items: center;
+    font-size: 2rem;
+    height: 40px;
+}
+.realName{
+    font-weight: 600;
+}
+.membership{
+
+}
+/* Status */
+.status-container-wrap{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    width: 100%;
+}
+.status-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+    padding: 50px 0px;
+    border-top: 1px solid #9698a4;
+    border-bottom: 1px solid #9698a4;
+}
+.status-title{
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.status-section{
+    width: 33%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: 400;
+    border-left: 1px solid #9698a4;
+}
+.status-section:first-child {
+    border: none; /*첫번째 요소에는 left border가 없음*/
+}
+
+.status-now{
+    font-weight: 600;
+    font-family: 'NanumMyeongjo-Regular';
+}
+.status-num{
+    font-weight: 400;
+}
+
+/* Address */
+.address-container-wrap{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+
+}
+.address-title{
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.address-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.address-section{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.address-post{
+    width: 80px;
+    margin-right: 40px;
+}
+.address-base{
+    width: 800px;
+}
+.address-detail {
+    width: 500px;
+    margin-right: 40px;
+}
+.address-input-post, .address-input-base, .address-input-detail{
+    width: 100%;
+    height: 40px;
+    border: 2px solid #9698a4;
+    border-radius: 5px;
+}
+.address-button {
+    height: 40px;
+    background-color: #3A3A3A;
+    border: 1px solid #3A3A3A;
+    border-radius: 5px;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    cursor: pointer;
+    margin-left: 40px;
+}
+/* history */
+.history-container-wrap{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+.history-title{
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+
+}
+.history-container{
+    width: 100%;
+    font-size: 1.2rem;
+}
+.history-table{
+    width: 100%;
+    border: 1px solid #9698a4;
+}
+.history-table th {
+    border: 1px solid #9698a4;
+    font-weight: 500;
+}
+.history-table td {
+    text-align: center;
+    border: 1px solid #9698a4;
+
+}
+.history-cancel {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+.history-cancel-button {
+    width: 50px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3A3A3A;
+    border: 1px solid #3A3A3A;
+    border-radius: 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.history-info-wrap{
+    display: flex;
+    flex-direction: row;
+    width: 400px;
+}
+
+.history-info-image{
+    margin: 0 15px;
+    width: 60px;
+    height: 60px;
+    object-fit: fill;
+    border-radius: 5px;
+}
+
+.history-info-texts-wrap{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.history-info-text1{
+    font-size: 21px;
+    font-weight: 500;
+}
+.history-info-text2{
+    font-size: 18px;
+    font-weight: 200;
+}
