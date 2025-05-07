@@ -9,7 +9,7 @@ const Profile = () => {
         <div className="profile-container">
             <div className="profile-section">
                 <div className="profile-name"><span className="realName">XS</span>님</div>
-                <div className="membership">회원</div>
+                <div className="membership">[VVIP] 회원</div>
             </div>
             <div className="profile-section">
                 <div className="profile-stat-label">총 결제금액</div>
