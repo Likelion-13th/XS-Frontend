@@ -9,7 +9,7 @@ const New = () => {
             id: 1,
             name: "대충 멋있는 퍼퓸",
             brand: "대충 멋있는 브랜드",
-            price: 297000,
+            price: 227000,
             imagePath: "/images/Perfume/perfume_1.png",
             isNew: true,
         },
