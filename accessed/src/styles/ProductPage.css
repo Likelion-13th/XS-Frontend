@@ -1,0 +1,139 @@
+@font-face {
+    font-family: 'KaiseiDecol-Regular';
+    src: url("../../public/Fonts/KaiseiDecol-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: 'NanumMyeongjo-Regular';
+    src: url("../../public/Fonts/NanumMyeongjo-Regular.ttf") format("truetype");
+}
+
+/* BannerProduct */
+
+.banner{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.banner-title{
+    font-family: 'KaiseiDecol-Regular';
+    font-size: 128px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.banner-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* object-fit: img, video 같은 요소의 크기 결정. */
+    /* cover는 가로세로비 유지하면서 요소를 꽉 채우는데, 요소 크기와 비가 안 맞으면 잘라버림*/
+    display: block; /* block: 블록 형태로 보여줘서 자동 줄바꿈이 이뤄짐*/
+}
+
+/* ProductCard */
+
+.product-card{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+
+}
+
+.product-image{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.product-margin{
+    margin-left: 7px;
+}
+.product-name{
+    font-family: 'NanumMyeongjo-Regular';
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 16px;
+    color: #3a3a3a;
+}
+
+.product-brand{
+    font-family: 'NanumMyeongjo-Regular';
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #898989;
+}
+
+.product-price{
+    font-family: 'NanumMyeongjo-Regular';
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #3a3a3a;
+}
+
+.new-badge{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #2ec1ac;
+    color: white;
+    font-size: 0.8rem;
+    font-family: 'KaiseiDecol-Regular';
+    padding: 10px 5px 10px 5px;
+    border-radius: 50px;
+    text-align: center;
+}
+
+/* in the  Perfume.js */
+
+.product-container{
+    width: 100%;
+    padding: 80px;
+    box-sizing: border-box;
+
+}
+
+.product-grid{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 84px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* All Pages */
+
+.paging{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.paging button.active{
+    background-color: #898989;
+    color: white;
+}
+.paging button{
+    background-color: #E7EFF5;
+    color: black;
+    border-radius: 30%;
+    border: 1px solid white;
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.paging button:hover{
+    background-color: #9e9e9e;
+    color: white;
+}
