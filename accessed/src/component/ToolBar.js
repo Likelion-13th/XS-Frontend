@@ -25,7 +25,7 @@ const ToolBar = ({ isLogin, onLoginChange }) => {
   const [cookies, removeCookie] = useCookies(["accessToken"]);
 	const handleLogout = () => {
 	  axios
-	    .delete("/users/logout", {
+	    .delete("http://sajang-dev-env.eba-riup6cju.ap-northeast-2.elasticbeanstalk.com/users/logout", {
 	      headers: {
 	        accept: "*/*",
 	        Authorization: `Bearer ${cookies.accessToken}`,
