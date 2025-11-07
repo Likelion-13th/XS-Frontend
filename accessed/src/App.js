@@ -1,6 +1,7 @@
 import "./App.css";
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { CookiesProvider } from "react-cookie";
 import Footer from './component/Footer';
 import Header from './component/header';
 import ToolBar from "./component/ToolBar";
@@ -10,20 +11,24 @@ import Diffuser from './pages/ProductPage/Diffuser';
 import Perfume from './pages/ProductPage/Perfume';
 import New from './pages/ProductPage/New';
 
+
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
   return (
-    <Router>
-      <Header />
-      <ToolBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Mypage" element={<Mypage />} />
-        <Route path="/diffuser" element={<Diffuser />} />
-        <Route path="/perfume" element={<Perfume />} />
-        <Route path="/New" element={<New />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <CookiesProvider>
+      <Router>
+        <Header />
+        <ToolBar isLogin={isLogin} onLoginChange={setIsLogin}/>
+        <Routes>
+          <Route path="/" element={<Home onLoginChange={setIsLogin} />} />
+          <Route path="/Mypage" element={<Mypage />} />
+          <Route path="/diffuser" element={<Diffuser />} />
+          <Route path="/perfume" element={<Perfume />} />
+          <Route path="/New" element={<New />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </CookiesProvider>
   );
 }
 
