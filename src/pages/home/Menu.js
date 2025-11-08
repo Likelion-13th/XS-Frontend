@@ -12,7 +12,7 @@ const Menu = () => {
                         className="menu-perfume"
                     >
                     </img>
-                    <Link to="/perfume" className="text-overlay text-perfume">Perfume</Link>
+                    <span to="/perfume" className="text-overlay text-perfume">Perfume</span>
                 </Link>
                 <Link to="/diffuser" className="menu-section">
                     <img 
