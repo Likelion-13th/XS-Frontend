@@ -1,55 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BannerProduct from "./BannerProduct";
 import ProductCard from './ProductCard';
 import PayModal from '../../component/PayModal';
-const Diffuser = () => {
-    const products = [
-        {
-            id: 1,
-            name: "대충 멋있는 디퓨저",
-            brand: "대충 사는 브랜드",
-            price: 297000,
-            imagePath: "/images/Diffuser/diffuser_1.png",
-            isNew: true,
-        },
-        {
-            id: 2,
-            name: "대충 있는 디퓨저",
-            brand: "대충 사는 브랜드",
-            price: 297000,
-            imagePath: "/images/Diffuser/diffuser_2.png",
-            isNew: false,
-        },
-        {
-            id: 3,
-            name: "멋있는 디퓨저",
-            brand: "대충 사는 브랜드",
-            price: 297000,
-            imagePath: "/images/Diffuser/diffuser_3.png",
-            isNew: true,
-        },
-        {
-            id: 4,
-            name: "대충 디퓨저",
-            brand: "대충 사는 브랜드",
-            price: 297000,
-            imagePath: "/images/Diffuser/diffuser_4.png",
-            isNew: false,
-        },
-        {
-            id: 5,
-            name: "있는 디퓨저",
-            brand: "대충 사는 브랜드",
-            price: 297000,
-            imagePath: "/images/Diffuser/diffuser_5.png",
-            isNew: false,
-        },
-    ];
+import axios from "axios";
+
+const Diffuser = ({isLogin}) => {
+    const [products, setProducts] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
-
     const handleCardClick =(product) => {
         setSelectedProduct(product);
+        if (!isLogin) { //typeof cookies.accessToken !== "string"도 가능함. (좋은 코드는 아님)
+            // 일반적으로는 isLogin 변수를 불러와서 사용하는 것을 권장함
+            alert("로그인 상태에서만 사용 가능한 기능입니다.");
+            return;
+        };
         setModalOpen(true);
     };
     const handleCardClose = () => {
@@ -65,6 +30,22 @@ const Diffuser = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    useEffect(() => {
+	  axios
+	    .get("/categories/2/items", {
+	      headers: {
+	        accept: "*/*",
+	      },
+	    })
+	    .then((response) => {
+            setProducts(response.data.result);
+        })
+	    .catch((err) => {
+	      console.log("LOGOUT API 요청 실패:", err);
+	    });
+    }, []);
+
     return (
         <div>
             <div>

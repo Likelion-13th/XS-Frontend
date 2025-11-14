@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 import "../styles/PayModal.css";
 
 const PayModal = ({ product, onClose }) => {
@@ -6,12 +8,14 @@ const PayModal = ({ product, onClose }) => {
     const [quantity, setQuantity] = useState(1);
     //사용자가 입력한 마일리지 금액
     const [mileageToUse, setMileageToUse] = useState("");
+    const [cookies] = useCookies(["accessToken"]);
 
     //useState는 컴포넌트 안에서 변하는 값을 저장할 때
     //useEffect는 처음 지정....? (잘 못 들음)
 
     //최대 사용 가능 마일리지
-    const maxMileage = 100000;
+    // const maxMileage = 100000;
+    const [maxMileage, setMaxMileage] = useState(0);
     //상품 가격
     const [, setProductPrice] = useState(product.price);
     //총 결제 금액
@@ -22,11 +26,58 @@ const PayModal = ({ product, onClose }) => {
         setQuantity((prev) => (type === "plus" ? prev + 1 : Math.max(1, prev -1)));
     }
 
+    const handlePayment = async() => {
+        try{
+            const response = await axios.post("/orders",
+                {
+                    itemId: product.id,
+                    quantity: quantity,
+                    mileageToUse: mileageToUse,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${cookies.accessToken}`,
+                    },
+                }
+            );
+
+            if (response.data.isSuccess) {
+                alert("주문이 성공적으로 생성되었습니다.");
+                onClose();
+            }
+            else{
+                alert(`주문 실패: ${response.data.message}`);
+            }
+        }
+        catch (error) {
+            console.error("결제 오류:", error);
+            alert("결제 처리 중 오류가 발생했습니다.");
+        }
+    };
+
     useEffect(() => {
         const newProductPrice = product.price * quantity;
         setProductPrice(newProductPrice);
         setTotalPrice(Math.max(newProductPrice - mileageToUse, 0));
     }, [quantity, mileageToUse, product.price]);
+
+
+    useEffect(() => {
+	    axios
+            .get("/users/mileage", {
+                headers: {
+                    accept: "*/*",
+                    Authorization: `Bearer ${cookies.accessToken}`
+                },
+            })
+            .then((response) => {
+                setMaxMileage(response.data.result.maxMileage); // 개발자 도구 확인-> JSON 파일 보고 내가 받아오는 게 뭔지 꼭 확인해주십시오
+            })
+            .catch((err) => {
+                console.log("마일리지 조회 실패:", err);
+            });
+        }, [cookies.accessToken]);
 
     //input에 입력할 때 실행
     const handleMileageChange = (e) => {
@@ -112,7 +163,7 @@ const PayModal = ({ product, onClose }) => {
                         </div>
                     </div>
                 </div>
-                
+                <button className="pay-button" onClick={handlePayment}>결제하기</button>
             </div>
         </div>
     );

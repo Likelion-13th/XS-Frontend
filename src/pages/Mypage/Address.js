@@ -48,7 +48,7 @@ const Address = () => {
                         onChange={handleAddressDetailChange} />
                     </div>
                     <div className="address-button"
-                    onClick={handleSave}>
+                    onClick={() => handleSave({zipcode, Address, AddressDetail})}>
                         저장하기
                     </div>
                 </div>
