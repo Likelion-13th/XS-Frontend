@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 import "../styles/PayModal.css";
 
 const PayModal = ({ product, onClose }) => {
@@ -6,21 +8,57 @@ const PayModal = ({ product, onClose }) => {
     const [quantity, setQuantity] = useState(1);
     //사용자가 입력한 마일리지 금액
     const [mileageToUse, setMileageToUse] = useState("");
+    const [cookies] = useCookies(["accessToken"]);
 
     //useState는 컴포넌트 안에서 변하는 값을 저장할 때
     //useEffect는 처음 지정....? (잘 못 들음)
 
     //최대 사용 가능 마일리지
-    const maxMileage = 100000;
+    // const maxMileage = 100000;
+    const [maxMileage, setMaxMileage] = useState(0);
     //상품 가격
     const [, setProductPrice] = useState(product.price);
     //총 결제 금액
     const [totalPrice, setTotalPrice] = useState(product.price);
 
+    // 사용자 정보 뜨게 만들기
+    const [buyerName, setBuyerName] = useState("");
+    const [buyerAddress, setBuyerAddress] = useState("");
+
     // 수량 증가 및 감소 함수
     const handleQuantityChange = (type) => {
         setQuantity((prev) => (type === "plus" ? prev + 1 : Math.max(1, prev -1)));
     }
+
+    const handlePayment = async() => {
+        try{
+            const response = await axios.post("/orders",
+                {
+                    itemId: product.id,
+                    quantity: quantity,
+                    mileageToUse: mileageToUse,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${cookies.accessToken}`,
+                    },
+                }
+            );
+
+            if (response.data.isSuccess) {
+                alert("주문이 성공적으로 생성되었습니다.");
+                onClose();
+            }
+            else{
+                alert(`주문 실패: ${response.data.message}`);
+            }
+        }
+        catch (error) {
+            console.error("결제 오류:", error);
+            alert("결제 처리 중 오류가 발생했습니다.");
+        }
+    };
 
     useEffect(() => {
         const newProductPrice = product.price * quantity;
@@ -28,12 +66,57 @@ const PayModal = ({ product, onClose }) => {
         setTotalPrice(Math.max(newProductPrice - mileageToUse, 0));
     }, [quantity, mileageToUse, product.price]);
 
+
+    useEffect(() => {
+	    axios
+            .get("/users/mileage", {
+                headers: {
+                    accept: "*/*",
+                    Authorization: `Bearer ${cookies.accessToken}`
+                },
+            })
+            .then((response) => {
+                setMaxMileage(response.data.result.maxMileage); // 개발자 도구 확인-> JSON 파일 보고 내가 받아오는 게 뭔지 꼭 확인해주십시오
+            })
+            .catch((err) => {
+                console.log("마일리지 조회 실패:", err);
+            });
+        }, [cookies.accessToken]);
+
     //input에 입력할 때 실행
     const handleMileageChange = (e) => {
         const value = e.target.value;
         const numericValue = value === "" ? 0 : Math.min(Number(value), maxMileage);
         setMileageToUse(numericValue);
     }
+
+    useEffect(() => {
+        axios.get("/users/profile", {
+            headers: {
+                accept: "*/*",
+                Authorization: `Bearer ${cookies.accessToken}`
+            },
+        })
+        .then((response) => {
+            const res = response.data.result;
+            
+            // 1. 이름(닉네임) 세팅
+            setBuyerName(res.usernickname);
+
+            // 2. 주소 세팅 (Embedded 타입 고려)
+            if (res.address) {
+                // 보기 좋게 문자열로 합칩니다. 예: (12345) 서울시... 101호
+                const fullAddress = `(${res.address.zipcode}) ${res.address.address} ${res.address.addressDetail}`;
+                setBuyerAddress(fullAddress);
+            } else {
+                setBuyerAddress("배송지 정보가 없습니다. 마이페이지에서 등록해주세요.");
+            }
+        })
+        .catch((err) => {
+            console.log("프로필 정보 조회 실패:", err);
+        });
+    }, [cookies.accessToken]);
+
     return(
         <div className="modal">
             <div className="overlay" onClick={onClose}></div>
@@ -72,9 +155,8 @@ const PayModal = ({ product, onClose }) => {
                     {/*배송지 정보*/}
                 <div className="section">
                     <div className="section-title">배송지</div>
-                    <div className="user-info">XS</div>
-                    <div className="user-info">010-0000-0000</div>
-                    <div className="user-info">항공대학교</div>
+                    <div className="user-info">{buyerName || "이름 없음"}</div>
+                    <div className="user-info">{buyerAddress || "주소 없음"}</div>
                 </div>
                 
                 {/* 마일리지 사용 입력판 */}
@@ -112,7 +194,7 @@ const PayModal = ({ product, onClose }) => {
                         </div>
                     </div>
                 </div>
-                
+                <button className="pay-button" onClick={handlePayment}>결제하기</button>
             </div>
         </div>
     );

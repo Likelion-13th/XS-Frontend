@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Address = () => {
+const Address = ({ savedAddress, handleSave }) => {
     const [zipcode, setZipcode] = useState("");
     const [Address, setAddress] = useState("");
     const [AddressDetail, setAddressDetail] = useState("");
@@ -9,9 +9,6 @@ const Address = () => {
         setAddressDetail(e.target.value);
     }
 
-    const handleSave = () => {
-        alert("저장되었습니다.");
-    }
 
     const handleSearchPostCode = () => {
         new window.daum.Postcode({
@@ -19,10 +16,17 @@ const Address = () => {
                 // 성공 후에 로직
                 setZipcode(data.zonecode);
                 setAddress(data.roadAddress || data.jibunAddress);
-                
             }
         }).open();
     }
+
+    useEffect(() => {
+        if (savedAddress) {
+            setZipcode(savedAddress.zipcode || "");
+            setAddress(savedAddress.address || "");
+            setAddressDetail(savedAddress.addressDetail || "");
+        }
+    }, [savedAddress]);
 
     return (
         <div className="address-container-wrap">
@@ -30,14 +34,14 @@ const Address = () => {
             <div className="address-container">
                 <div className="address-section">
                     <div className="address-post">
-                        <input className="address-input-post" value={zipcode} />
+                        <input className="address-input-post" value={zipcode} readOnly />
                     </div>
                     <div className="address-button"
                     onClick={handleSearchPostCode}>우편번호 찾기</div>
                 </div>
                 <div className="address-section">
                     <div className="address-base">
-                        <input className="address-input-base" value={Address}/>
+                        <input className="address-input-base" value={Address} readOnly />
                     </div>
                 </div>
                 <div className="address-section">
@@ -48,7 +52,7 @@ const Address = () => {
                         onChange={handleAddressDetailChange} />
                     </div>
                     <div className="address-button"
-                    onClick={handleSave}>
+                    onClick={() => handleSave({zipcode, Address, AddressDetail})}>
                         저장하기
                     </div>
                 </div>

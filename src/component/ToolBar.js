@@ -32,8 +32,8 @@ const ToolBar = ({ isLogin, onLoginChange }) => {
 	      },
 	    })
 	    .then(() => {
-        onLoginChange(false);
-	      removeCookie("accessToken", { path: "/" });
+        onLoginChange(false); // isLogin 변수를 바꾸는 메서드
+	      removeCookie("accessToken", { path: "/" }); // root(/)에 accessToken이 저장되어있음
 	    })
 	    .catch((err) => {
 	      console.log("LOGOUT API 요청 실패:", err);
