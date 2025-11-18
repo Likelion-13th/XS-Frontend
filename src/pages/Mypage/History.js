@@ -1,13 +1,16 @@
 import React from 'react';
 
-const History = () => {
-    const onCancel = () => {
-        // API 호출(취소됨!)
-        alert("취소되었습니다.");
-    }
+const History = ({historyData, onCancel}) => {
+ 
     const formatCurrency =(amount) => {
         return new Intl.NumberFormat('ko-KR').format(amount);
     }
+
+    const formatDate = (dateString) => {
+        if (!dateString) return "-";
+        return dateString.substring(0, 10); // 2025-01-01T... -> 2025-01-01
+    };
+
     return (
         <div className="history-container-wrap">
             <div className="history-title">나의 구매 내역</div>
@@ -24,35 +27,45 @@ const History = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2025-01-01</td>
-                            <td>
-                                <div className="history-info-wrap">
-                                    <img 
-                                    src={`${process.env.PUBLIC_URL}/images/Perfume/perfume_1.png`}
-                                    alt="perfume"
-                                    className="history-info-image"
-                                    ></img>
-                                    <div className="history-info-texts-wrap">
-                                        <div className="history-info-text1">
-                                            퓨어 그린 퍼퓸
-                                        </div>
-                                        <div className="history-info-text2">
-                                            코코도르
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>1</td>
-                            <td><span>{formatCurrency(155000)}</span>원</td>
-                            <td>배송중</td>
-                            <td>
-                                <div className="history-cancel">
-                                    <div className="history-cancel-button"
-                                    onClick={onCancel}>취소</div>
-                                </div>
-                            </td>
-                        </tr>
+                        {historyData && historyData.length > 0 ? (
+                            historyData.map((item) => (
+                                <tr key={item.orderId}>
+                                    <td>{formatDate(item.createdAt)}</td>
+                                    <td>{item.itemName}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>
+                                        <span>{formatCurrency(item.finalPrice)}</span>원
+                                    </td>
+                                    <td>{item.status}</td>
+                                    <td>
+                                        {item.status === 'PROCESSING' ? (
+                                            <div className="history-cancel">
+                                                <div 
+                                                    className="history-cancel-button"
+                                                    onClick={() => onCancel(item.orderId)} 
+                                                >
+                                                    취소
+                                                </div>
+                                            </div>
+                                        )
+                                        : (
+                                            <div className="history-cancel">
+                                                <div className="history-confirm-button">
+                                                    확정
+                                                </div>
+                                            </div>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            // 데이터가 없을 경우
+                            <tr>
+                                <td>
+                                    구매 내역이 없습니다.
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

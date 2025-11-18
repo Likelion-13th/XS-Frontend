@@ -21,6 +21,10 @@ const PayModal = ({ product, onClose }) => {
     //총 결제 금액
     const [totalPrice, setTotalPrice] = useState(product.price);
 
+    // 사용자 정보 뜨게 만들기
+    const [buyerName, setBuyerName] = useState("");
+    const [buyerAddress, setBuyerAddress] = useState("");
+
     // 수량 증가 및 감소 함수
     const handleQuantityChange = (type) => {
         setQuantity((prev) => (type === "plus" ? prev + 1 : Math.max(1, prev -1)));
@@ -85,6 +89,34 @@ const PayModal = ({ product, onClose }) => {
         const numericValue = value === "" ? 0 : Math.min(Number(value), maxMileage);
         setMileageToUse(numericValue);
     }
+
+    useEffect(() => {
+        axios.get("/users/profile", {
+            headers: {
+                accept: "*/*",
+                Authorization: `Bearer ${cookies.accessToken}`
+            },
+        })
+        .then((response) => {
+            const res = response.data.result;
+            
+            // 1. 이름(닉네임) 세팅
+            setBuyerName(res.usernickname);
+
+            // 2. 주소 세팅 (Embedded 타입 고려)
+            if (res.address) {
+                // 보기 좋게 문자열로 합칩니다. 예: (12345) 서울시... 101호
+                const fullAddress = `(${res.address.zipcode}) ${res.address.address} ${res.address.addressDetail}`;
+                setBuyerAddress(fullAddress);
+            } else {
+                setBuyerAddress("배송지 정보가 없습니다. 마이페이지에서 등록해주세요.");
+            }
+        })
+        .catch((err) => {
+            console.log("프로필 정보 조회 실패:", err);
+        });
+    }, [cookies.accessToken]);
+
     return(
         <div className="modal">
             <div className="overlay" onClick={onClose}></div>
@@ -123,9 +155,8 @@ const PayModal = ({ product, onClose }) => {
                     {/*배송지 정보*/}
                 <div className="section">
                     <div className="section-title">배송지</div>
-                    <div className="user-info">XS</div>
-                    <div className="user-info">010-0000-0000</div>
-                    <div className="user-info">항공대학교</div>
+                    <div className="user-info">{buyerName || "이름 없음"}</div>
+                    <div className="user-info">{buyerAddress || "주소 없음"}</div>
                 </div>
                 
                 {/* 마일리지 사용 입력판 */}

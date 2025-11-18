@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import { CookiesProvider, useCookies } from "react-cookie";
+import { CookiesProvider } from "react-cookie";
 import Footer from './component/Footer';
 import Header from './component/header';
 import ToolBar from "./component/ToolBar";
@@ -13,10 +13,7 @@ import New from './pages/ProductPage/New';
 
 
 function AppContent() {
-  const [cookies] = useCookies(["accessToken"]);
-
-  // 쿠키의 존재 여부로 isLogin의 초기 상태를 결정합니다.
-  const [isLogin, setIsLogin] = useState(!!cookies.accessToken); 
+  const [isLogin, setIsLogin] = useState(false); 
 
   return (
     <Router>

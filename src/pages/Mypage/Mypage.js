@@ -14,6 +14,26 @@ const Mypage = () => {
     const [profileData, setProfileData] = useState({});
     const [orderStatusData, setOrderStatusData] = useState({});
     const [historyData, setHistoryData] = useState({});
+    const [addressData, setAddressData] = useState(null);
+    
+    const getOrderHistory = async () => {
+        try {
+            const res = await axios.get("/orders", {
+                headers: {
+                    accept: "*/*",
+                    Authorization: `Bearer ${cookies.accessToken}`,
+                }
+            });
+            setHistoryData(res.data.result);
+        } catch (err) {
+            console.log("History 조회 실패:", err);
+        }
+    };
+    useEffect(() => {
+        getOrderHistory();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cookies.accessToken]);
+
     useEffect(() => {
 	  axios
 	    .get("/users/profile", {
@@ -29,13 +49,19 @@ const Mypage = () => {
                 maxMileage: response.data.result.maxMileage,
             });
             setOrderStatusData(response.data.result.orderStatusCounts);
+            setAddressData({
+                zipcode: response.data.result.address.zipcode,       
+                address: response.data.result.address.address,
+                addressDetail: response.data.result.address.addressDetail
+            });
         })
 	    .catch((err) => {
 	      console.log("유저 프로필 조회 API 요청 실패:", err);
 	    });
     }, [cookies.accessToken]);
 
-    const handleSave = async (zipcode, Address, AddressDetail) => {
+
+    const handleSave = async ({zipcode, Address, AddressDetail}) => {
         try {
             const response = await axios.post(
                 "/users/address",
@@ -64,32 +90,47 @@ const Mypage = () => {
             alert("주소 저장 중 오류가 발생했습니다.");
         }
     };
-    // useEffect(() => {
-    //     axios.get("/orders", {
-    //         headers: {
-    //             accept: "*/*",
-    //             Authorization: `Bearer ${cookies.accessToken}`,
-    //         }
-    //     })
-    //     .then((res) => {
-    //         setHistoryData({
-    //             itemName: res.data.result.itemName,
-    //             quantity: res.data.result.quantity,
-    //             finalPrice: res.data.result.finalPrice,
-    //             mileageToUse: res.data.result.mileageToUse,
-    //             createdAt: res.data.result.createdAt,
-    //         })
-    //     })
-    //     .catch((err) => {
-	//       console.log("주문 조회 API 요청 실패:", err);
-	//     });
-    // }, [cookies.accessToken])
+
+    const onCancel = async (orderId) => {
+        if (!orderId) {
+            alert("주문 정보를 찾을 수 없습니다.");
+            return;
+        }
+
+        const isConfirmed = window.confirm("정말로 이 주문을 취소하시겠습니까?");
+        if (!isConfirmed) return;
+        try {
+            const response = await axios.put(
+                `/orders/${orderId}/cancel`,
+                {}, // PUT 요청의 body가 없다면 빈 객체라도 넘겨야 하는 경우가 많음
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${cookies.accessToken}`,
+                    },
+                }
+            );
+            
+            if (response.data.isSuccess) {
+                getOrderHistory();
+                alert("주문이 성공적으로 취소되었습니다.");
+            } else {
+                alert(`취소 실패: ${response.data.message}`);
+            }
+
+        } catch (error) {
+            console.error("주문 취소 에러:", error);
+            alert("주문 취소 중 오류가 발생했습니다.");
+        }
+    };
+
+
     return (
         <div className="mypage-container">
             <Profile profileData={profileData} />
             <Status orderStatusData={orderStatusData}/>
-            <Address handleSave={handleSave} />
-            <History historyData={historyData} />
+            <Address handleSave={handleSave} savedAddress={addressData} />
+            <History historyData={historyData} onCancel={onCancel} />
         </div>
     )
 }
